@@ -12,7 +12,7 @@ const Navbar = ({ userInfo }) => {
   };
 
   return (
-    <div className="bg-white drop-shadow py-4 px-8 flex justify-between items-center">
+    <div className="fixed top-0 left-0 w-full z-50 bg-white drop-shadow py-4 px-8 flex justify-between items-center">
       <h1 className="text-2xl font-bold text-orange-600">Cookrr</h1>
 
       <SearchBar
