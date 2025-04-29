@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import SearchBar from "../SearchBar/SearchBar";
+import ProfileIconCard from "../Cards/ProfileIconCard";
 
-const Navbar = () => {
+const Navbar = ({ userInfo }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearch = () => {};
@@ -23,9 +24,13 @@ const Navbar = () => {
         onClearSearch={onClearSearch}
       />
 
-      <button className="bg-orange-600 text-white px-4 py-2 rounded-full hover:bg-orange-700 transition-colors">
-        Login
-      </button>
+      {userInfo ? (
+        <ProfileIconCard userInfo={userInfo} />
+      ) : (
+        <button className="bg-orange-600 text-white px-4 py-2 rounded-full hover:bg-orange-700 transition-colors">
+          Login
+        </button>
+      )}
     </div>
   );
 };

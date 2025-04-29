@@ -17,10 +17,16 @@ const dummyPosts = [
   },
 ];
 
+const userInfo = {
+  fullName: "Test User",
+};
+
+// const userInfo = "";
+
 const Home = () => {
   return (
     <div>
-      <Navbar />
+      <Navbar userInfo={userInfo} />
       <div className="max-w-3xl mx-auto mt-6 px-4">
         {dummyPosts.map((post, i) => (
           <PostCard key={i} {...post} />
