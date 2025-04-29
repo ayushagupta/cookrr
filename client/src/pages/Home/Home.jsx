@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import PostCard from "../../components/Cards/PostCard";
+import { MdAdd } from "react-icons/md";
 
 const dummyPosts = [
   {
@@ -44,6 +45,12 @@ const Home = () => {
           <PostCard key={i} {...post} />
         ))}
       </div>
+      <button
+        className="w-16 h-16 flex items-center justify-center rounded-2xl bg-orange-500 hover:bg-orange-600 fixed right-8 bottom-8 z-40"
+        onClick={() => {}}
+      >
+        <MdAdd className="text-[32px] text-white" />
+      </button>
     </div>
   );
 };
