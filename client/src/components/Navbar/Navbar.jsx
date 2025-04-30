@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import SearchBar from "../SearchBar/SearchBar";
 import ProfileIconCard from "../Cards/ProfileIconCard";
 import ProfileDropdown from "../Menu/ProfileDropdown";
+import AuthModal from "../Auth/AuthModal";
 
 const Navbar = ({ userInfo }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   const handleSearch = () => {};
 
@@ -47,9 +49,18 @@ const Navbar = ({ userInfo }) => {
           )}
         </div>
       ) : (
-        <button className="bg-orange-600 text-white px-4 py-2 rounded-full hover:bg-orange-700 transition-colors">
-          Login
-        </button>
+        <>
+          <button
+            className="bg-orange-600 text-white px-4 py-2 rounded-full hover:bg-orange-700 transition-colors"
+            onClick={() => setShowAuthModal(true)}
+          >
+            Login
+          </button>
+          <AuthModal
+            isOpen={showAuthModal}
+            onClose={() => setShowAuthModal(false)}
+          />
+        </>
       )}
     </div>
   );

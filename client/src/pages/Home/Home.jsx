@@ -32,11 +32,11 @@ const dummyPosts = [
   },
 ];
 
-const userInfo = {
-  fullName: "Test User",
-};
+// const userInfo = {
+//   fullName: "Test User",
+// };
 
-// const userInfo = "";
+const userInfo = "";
 
 const Home = () => {
   const [openAddPostModal, setOpenAddPostModal] = useState(false);
