@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import PostCard from "../../components/Cards/PostCard";
 import { MdAdd } from "react-icons/md";
+import Modal from "react-modal";
+import AddPost from "./AddPost";
 
 const dummyPosts = [
   {
@@ -37,6 +39,8 @@ const userInfo = {
 // const userInfo = "";
 
 const Home = () => {
+  const [openAddPostModal, setOpenAddPostModal] = useState(false);
+
   return (
     <div className="pt-20">
       <Navbar userInfo={userInfo} />
@@ -47,10 +51,30 @@ const Home = () => {
       </div>
       <button
         className="w-16 h-16 flex items-center justify-center rounded-2xl bg-orange-500 hover:bg-orange-600 fixed right-8 bottom-8 z-40"
-        onClick={() => {}}
+        onClick={() => {
+          setOpenAddPostModal(true);
+        }}
       >
         <MdAdd className="text-[32px] text-white" />
       </button>
+
+      <Modal
+        isOpen={openAddPostModal}
+        onRequestClose={() => {}}
+        style={{
+          overlay: {
+            backgroundColor: "rgba(0,0,0,0.2)",
+          },
+        }}
+        contentLabel=""
+        className="w-[40%] max-h-3/4 bg-white rounded-md mx-auto mt-32 p-5 overflow-auto"
+      >
+        <AddPost
+          onClose={() => {
+            setOpenAddPostModal(false);
+          }}
+        />
+      </Modal>
     </div>
   );
 };
