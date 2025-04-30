@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useParams } from "react-router-dom";
-import Navbar from "../components/Navbar";
+import Navbar from "../../components/Navbar/Navbar";
 
 const Profile = () => {
   const { userId } = useParams();
