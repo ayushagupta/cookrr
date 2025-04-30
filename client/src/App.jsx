@@ -1,17 +1,20 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home/Home";
-
-const routes = (
-  <Router>
-    <Routes>
-      <Route path="/" exact element={<Home />} />
-    </Routes>
-  </Router>
-);
+import Profile from "./pages/Profile/Profile";
+import { AuthProvider } from "./context/AuthContext";
 
 const App = () => {
-  return <div>{routes}</div>;
+  return (
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/profile/:userId" element={<Profile />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
+  );
 };
 
 export default App;
