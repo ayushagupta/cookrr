@@ -5,6 +5,7 @@ import { MdAdd } from "react-icons/md";
 import Modal from "react-modal";
 import AddPost from "./AddPost";
 import axios from "../../utils/axiosInstance";
+import Sidebar from "../../components/Sidebar/Sidebar";
 
 const Home = () => {
   const [openAddPostModal, setOpenAddPostModal] = useState(false);
@@ -17,51 +18,56 @@ const Home = () => {
         setAllPosts(response.data);
       }
     } catch (error) {
-      console.log("An unexpected error occured while fetching notes. Please try again.");
+      console.log(
+        "An unexpected error occured while fetching notes. Please try again."
+      );
     }
   };
 
   useEffect(() => {
     getAllPosts();
-    return () => {}
+    return () => {};
   }, []);
 
   return (
-    <div className="pt-20">
-      <Navbar />
-      <div className="max-w-xl mx-auto mt-6 px-4">
-        {allPosts.map((post, i) => (
-          <PostCard key={i} {...post} />
-        ))}
-      </div>
-      <button
-        className="w-16 h-16 flex items-center justify-center rounded-2xl bg-orange-500 hover:bg-orange-600 fixed right-8 bottom-8 z-40"
-        onClick={() => {
-          setOpenAddPostModal(true);
-        }}
-      >
-        <MdAdd className="text-[32px] text-white" />
-      </button>
-
-      <Modal
-        isOpen={openAddPostModal}
-        onRequestClose={() => {}}
-        style={{
-          overlay: {
-            backgroundColor: "rgba(0,0,0,0.2)",
-          },
-        }}
-        contentLabel=""
-        className="w-[40%] max-h-3/4 bg-white rounded-md mx-auto mt-32 p-5 overflow-auto"
-        appElement={document.getElementById("root")}
-      >
-        <AddPost
-          onClose={() => {
-            setOpenAddPostModal(false);
+    <div>
+      <Sidebar />
+      <div className="pt-20">
+        <Navbar />
+        <div className="max-w-xl mx-auto mt-6 px-4">
+          {allPosts.map((post, i) => (
+            <PostCard key={i} {...post} />
+          ))}
+        </div>
+        <button
+          className="w-16 h-16 flex items-center justify-center rounded-2xl bg-orange-500 hover:bg-orange-600 fixed right-8 bottom-8 z-40"
+          onClick={() => {
+            setOpenAddPostModal(true);
           }}
-          getAllPosts={getAllPosts}
-        />
-      </Modal>
+        >
+          <MdAdd className="text-[32px] text-white" />
+        </button>
+
+        <Modal
+          isOpen={openAddPostModal}
+          onRequestClose={() => {}}
+          style={{
+            overlay: {
+              backgroundColor: "rgba(0,0,0,0.2)",
+            },
+          }}
+          contentLabel=""
+          className="w-[40%] max-h-3/4 bg-white rounded-md mx-auto mt-32 p-5 overflow-auto"
+          appElement={document.getElementById("root")}
+        >
+          <AddPost
+            onClose={() => {
+              setOpenAddPostModal(false);
+            }}
+            getAllPosts={getAllPosts}
+          />
+        </Modal>
+      </div>
     </div>
   );
 };
