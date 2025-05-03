@@ -1,13 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import SearchBar from "../SearchBar/SearchBar";
 import ProfileIconCard from "../Cards/ProfileIconCard";
 import ProfileDropdown from "../Menu/ProfileDropdown";
 import AuthModal from "../Auth/AuthModal";
+import { AuthContext } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
-const Navbar = ({ userInfo }) => {
+const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
+
+  const { currentUser, setCurrentUser } = useContext(AuthContext);
+
+  const navigate = useNavigate();
 
   const handleSearch = () => {};
 
@@ -16,7 +22,11 @@ const Navbar = ({ userInfo }) => {
   };
 
   const handleLogout = () => {
+    localStorage.removeItem("cookrr-token");
+    localStorage.removeItem("cookrr-user");
+    setCurrentUser(null);
     setShowDropdown(false);
+    navigate("/");
   };
 
   return (
@@ -32,13 +42,13 @@ const Navbar = ({ userInfo }) => {
         onClearSearch={onClearSearch}
       />
 
-      {userInfo ? (
+      {currentUser ? (
         <div className="relative">
           <div
             className="cursor-pointer"
             onClick={() => setShowDropdown((prev) => !prev)}
           >
-            <ProfileIconCard userInfo={userInfo} />
+            <ProfileIconCard userInfo={currentUser} />
           </div>
 
           {showDropdown && (

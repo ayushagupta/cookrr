@@ -43,7 +43,7 @@ const Home = () => {
 
   return (
     <div className="pt-20">
-      <Navbar userInfo={userInfo} />
+      <Navbar />
       <div className="max-w-3xl mx-auto mt-6 px-4">
         {dummyPosts.map((post, i) => (
           <PostCard key={i} {...post} />
@@ -68,6 +68,7 @@ const Home = () => {
         }}
         contentLabel=""
         className="w-[40%] max-h-3/4 bg-white rounded-md mx-auto mt-32 p-5 overflow-auto"
+        appElement={document.getElementById("root")}
       >
         <AddPost
           onClose={() => {
