@@ -1,51 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import PostCard from "../../components/Cards/PostCard";
 import { MdAdd } from "react-icons/md";
 import Modal from "react-modal";
 import AddPost from "./AddPost";
-
-const dummyPosts = [
-  {
-    title: "Spicy Butter Chicken",
-    author: "Ayush Gupta",
-    image: "https://source.unsplash.com/featured/?butter-chicken",
-    tags: ["Indian", "Spicy"],
-  },
-  {
-    title: "Vegan Tofu Bowl",
-    author: "Priya Shah",
-    image: "https://source.unsplash.com/featured/?tofu",
-    tags: ["Vegan", "Healthy"],
-  },
-  {
-    title: "Spicy Butter Chicken",
-    author: "Ayush Gupta",
-    image: "https://source.unsplash.com/featured/?butter-chicken",
-    tags: ["Indian", "Spicy"],
-  },
-  {
-    title: "Vegan Tofu Bowl",
-    author: "Priya Shah",
-    image: "https://source.unsplash.com/featured/?tofu",
-    tags: ["Vegan", "Healthy"],
-  },
-];
-
-// const userInfo = {
-//   fullName: "Test User",
-// };
-
-const userInfo = "";
+import axios from "../../utils/axiosInstance";
 
 const Home = () => {
   const [openAddPostModal, setOpenAddPostModal] = useState(false);
+  const [allPosts, setAllPosts] = useState([]);
+
+  const getAllPosts = async () => {
+    try {
+      const response = await axios.get("/api/posts");
+      if (Array.isArray(response.data)) {
+        setAllPosts(response.data);
+      }
+    } catch (error) {
+      console.log("An unexpected error occured while fetching notes. Please try again.");
+    }
+  };
+
+  useEffect(() => {
+    getAllPosts();
+    return () => {}
+  }, []);
 
   return (
     <div className="pt-20">
       <Navbar />
       <div className="max-w-3xl mx-auto mt-6 px-4">
-        {dummyPosts.map((post, i) => (
+        {allPosts.map((post, i) => (
           <PostCard key={i} {...post} />
         ))}
       </div>

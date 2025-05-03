@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { FaPaperPlane } from "react-icons/fa";
+import { BASE_URL } from "../../utils/constants";
 
 const PostCard = ({ title, author, image, tags }) => {
   const [rating, setRating] = useState(0);
@@ -19,13 +20,13 @@ const PostCard = ({ title, author, image, tags }) => {
   return (
     <div className="bg-white shadow rounded p-4 mb-6">
       <img
-        src={image}
+        src={`${BASE_URL}${image}`}
         alt={title}
-        className="w-full h-48 object-cover rounded"
+        className="aspect-[4/3] w-full overflow-hidden rounded"
       />
 
       <h2 className="text-xl font-semibold mt-2">{title}</h2>
-      <p className="text-sm text-gray-500">By {author}</p>
+      <p className="text-sm text-gray-500">By {author.fullName}</p>
 
       <div className="mt-2">
         {tags.map((tag, idx) => (
