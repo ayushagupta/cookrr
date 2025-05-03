@@ -1,23 +1,59 @@
 import React, { useState } from "react";
 import { MdClose } from "react-icons/md";
+import axios from "../../utils/axiosInstance";
+import { useNavigate } from "react-router-dom";
 
-const AddPost = ({ onClose }) => {
+const AddPost = ({ onClose, getAllPosts }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [tags, setTags] = useState("");
   const [image, setImage] = useState(null);
+  const [error, setError] = useState("");
+
+  const navigate = useNavigate();
 
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const tagList = tags.split(",").map((tag) => tag.trim());
-    
     // API call
-    
+    try {
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("content", content);
+      formData.append("tags", tags);
+      formData.append("image", image);
+
+      const response = await axios.post("/api/posts", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (response.status === 201) {
+        console.log("Post created successfully:", response.data.post);
+        getAllPosts();
+        handleClose();
+      } else {
+        setError("Failed to create post. Please try again.");
+      }
+    } catch (error) {
+      const msg =
+        error.response?.data?.message ||
+        "Something went wrong. Please try again.";
+      setError(msg);
+    }
+  };
+
+  const handleClose = () => {
+    setTitle("");
+    setContent("");
+    setTags("");
+    setImage(null);
+    setError("");
     onClose();
   };
 
@@ -25,7 +61,7 @@ const AddPost = ({ onClose }) => {
     <div className="relative">
       <button
         className="w-10 h-10 rounded-full flex items-center justify-center absolute -top-3 -right-3 z-10 hover:bg-slate-50"
-        onClick={onClose}
+        onClick={handleClose}
       >
         <MdClose className="text-xl text-slate-400" />
       </button>
@@ -61,8 +97,11 @@ const AddPost = ({ onClose }) => {
           type="file"
           accept="image/*"
           onChange={handleImageChange}
+          required
           className="block"
         />
+
+        {error && <p className="text-red-500 text-xs mb-2">{error}</p>}
 
         <button
           type="submit"
