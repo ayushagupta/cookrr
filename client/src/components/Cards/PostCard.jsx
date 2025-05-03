@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { FaPaperPlane } from "react-icons/fa";
 import { BASE_URL } from "../../utils/constants";
+import { Link } from "react-router-dom";
 
 const PostCard = ({ title, author, image, tags }) => {
   const [rating, setRating] = useState(0);
@@ -26,7 +27,14 @@ const PostCard = ({ title, author, image, tags }) => {
       />
 
       <h2 className="text-xl font-semibold mt-2">{title}</h2>
-      <p className="text-sm text-gray-500">By {author.fullName}</p>
+      <p className="text-sm text-orange-500">
+        <Link
+          to={`/profile/${author._id}`}
+          className="hover:underline hover:text-orange-700"
+        >
+          {author.fullName}
+        </Link>
+      </p>
 
       <div className="mt-2">
         {tags.map((tag, idx) => (
