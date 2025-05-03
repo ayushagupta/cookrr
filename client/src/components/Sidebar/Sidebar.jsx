@@ -6,6 +6,7 @@ import {
   MdMessage,
   MdPerson,
   MdSettings,
+  MdTag 
 } from "react-icons/md";
 
 const Sidebar = () => {
@@ -19,6 +20,7 @@ const Sidebar = () => {
       icon: <MdLocalDining size={22} />,
       path: "/communities",
     },
+    { label: "Tags", icon: <MdTag size={22} />, path: "/tags" },
     { label: "Profile", icon: <MdPerson size={22} />, path: "/profile/me" },
     { label: "Settings", icon: <MdSettings size={22} />, path: "/settings" },
   ];
