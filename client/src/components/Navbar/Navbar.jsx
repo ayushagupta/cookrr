@@ -15,7 +15,11 @@ const Navbar = () => {
 
   const navigate = useNavigate();
 
-  const handleSearch = () => {};
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
 
   const onClearSearch = () => {
     setSearchQuery("");

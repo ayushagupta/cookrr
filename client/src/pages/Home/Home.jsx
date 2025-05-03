@@ -35,9 +35,9 @@ const Home = () => {
   return (
     <div>
       <Sidebar />
-      <div className="pt-20">
+      <div>
         <Navbar />
-        <div className="max-w-xl mx-auto mt-6 px-4">
+        <div className="pt-20 max-w-xl mx-auto mt-6 px-4">
           {allPosts.map((post, i) => (
             <PostCard key={i} {...post} />
           ))}

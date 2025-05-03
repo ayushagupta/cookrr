@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Profile from "./pages/Profile/Profile";
+import SearchResults from "./pages/Search/SearchResults";
 import { AuthProvider } from "./context/AuthContext";
 import RedirectToOwnProfile from "./pages/Profile/RedirectToOwnProfile";
 
@@ -13,6 +14,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/profile/:userId" element={<Profile />} />
           <Route path="/profile/me" element={<RedirectToOwnProfile />} />
+          <Route path="/search" element={<SearchResults />} />
         </Routes>
       </Router>
     </AuthProvider>
