@@ -1,16 +1,13 @@
 import React, { useState } from "react";
 import { MdClose } from "react-icons/md";
 import axios from "../../utils/axiosInstance";
-import { useNavigate } from "react-router-dom";
 
-const AddPost = ({ onClose, getAllPosts }) => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [tags, setTags] = useState("");
-  const [image, setImage] = useState(null);
+const AddEditPost = ({ postData, type, onClose, getAllPosts, getUserData }) => {
+  const [title, setTitle] = useState(postData?.title || "");
+  const [content, setContent] = useState(postData?.content || "");
+  const [tags, setTags] = useState(postData?.tags || "");
+  const [image, setImage] = useState(postData?.image || null);
   const [error, setError] = useState("");
-
-  const navigate = useNavigate();
 
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
@@ -27,18 +24,35 @@ const AddPost = ({ onClose, getAllPosts }) => {
       formData.append("tags", tags);
       formData.append("image", image);
 
-      const response = await axios.post("/api/posts", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response =
+        type === "add"
+          ? await axios.post("/api/posts", formData, {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            })
+          : await axios.put(`/api/posts/${postData._id}`, formData, {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            });
 
-      if (response.status === 201) {
-        console.log("Post created successfully:", response.data.post);
-        getAllPosts();
-        handleClose();
+      if (type === "add") {
+        if (response.status === 201) {
+          console.log("Post created successfully:", response.data);
+          getAllPosts();
+          handleClose();
+        } else {
+          setError("Failed to create post. Please try again.");
+        }
       } else {
-        setError("Failed to create post. Please try again.");
+        if (response.status === 200) {
+          console.log("Post edited successfully:", response.data);
+          getUserData();
+          handleClose();
+        } else {
+          setError("Failed to edit post. Please try again.");
+        }
       }
     } catch (error) {
       const msg =
@@ -97,7 +111,7 @@ const AddPost = ({ onClose, getAllPosts }) => {
           type="file"
           accept="image/*"
           onChange={handleImageChange}
-          required
+          required={type === "add"}
           className="block"
         />
 
@@ -107,11 +121,11 @@ const AddPost = ({ onClose, getAllPosts }) => {
           type="submit"
           className="bg-orange-600 text-white px-6 py-2 rounded hover:bg-orange-700 transition-colors"
         >
-          Post
+          {type === "add" ? "POST" : "UPDATE"}
         </button>
       </form>
     </div>
   );
 };
 
-export default AddPost;
+export default AddEditPost;

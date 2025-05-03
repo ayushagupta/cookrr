@@ -1,14 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import axios from "../../utils/axiosInstance";
 import Navbar from "../../components/Navbar/Navbar";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import ProfilePostCard from "../../components/Cards/ProfilePostCard";
+import AddEditPost from "../../components/AddEditPost/AddEditPost";
+import Modal from "react-modal";
+import { AuthContext } from "../../context/AuthContext";
 
 const Profile = () => {
   const { userId } = useParams();
   const [user, setUser] = useState(null);
   const [userPosts, setUserPosts] = useState([]);
+  const [openEditPostModal, setOpenEditPostModal] = useState({
+    type: "edit",
+    isShown: false,
+    data: null,
+  });
+
+  const { currentUser } = useContext(AuthContext);
+
+  const handleEdit = (post) => {
+    setOpenEditPostModal({
+      type: "edit",
+      isShown: true,
+      data: post,
+    });
+  };
 
   const getUserData = async () => {
     try {
@@ -17,6 +35,21 @@ const Profile = () => {
       setUserPosts(res.data.posts || []);
     } catch (err) {
       console.error("Error fetching profile:", err);
+    }
+  };
+
+  const deletePost = async (post) => {
+    const postId = post._id;
+    try {
+      const response = await axios.delete(`/api/posts/${postId}`);
+      if (response.status === 200) {
+        console.log("Post deleted successfully");
+        getUserData();
+      } else {
+        console.log("Failed to delete post");
+      }
+    } catch (error) {
+      console.log("Error deleting post");
     }
   };
 
@@ -51,12 +84,41 @@ const Profile = () => {
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {userPosts.map((post) => (
-                  <ProfilePostCard key={post._id} {...post} />
+                  <ProfilePostCard
+                    key={post._id}
+                    title={post.title}
+                    image={post.image}
+                    onEdit={() => handleEdit(post)}
+                    onDelete={() => deletePost(post)}
+                    isOwner={String(currentUser?.id) === String(user._id)}
+                  />
                 ))}
               </div>
             )}
           </div>
         )}
+
+        <Modal
+          isOpen={openEditPostModal.isShown}
+          onRequestClose={() => {}}
+          style={{
+            overlay: {
+              backgroundColor: "rgba(0,0,0,0.2)",
+            },
+          }}
+          contentLabel=""
+          className="w-[40%] max-h-3/4 bg-white rounded-md mx-auto mt-32 p-5 overflow-auto"
+          appElement={document.getElementById("root")}
+        >
+          <AddEditPost
+            postData={openEditPostModal.data}
+            type={openEditPostModal.type}
+            getUserData={getUserData}
+            onClose={() => {
+              setOpenEditPostModal({ type: "edit", isShown: false });
+            }}
+          />
+        </Modal>
       </div>
     </div>
   );
