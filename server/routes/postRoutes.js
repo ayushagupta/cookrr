@@ -9,10 +9,12 @@ const {
   getPostById,
   updatePost,
   deletePost,
+  searchPosts
 } = require("../controllers/postController");
 
 router.post("/", auth, upload.single("image"), createPost);
 router.get("/", getAllPosts);
+router.get("/search", searchPosts);
 router.get("/:id", getPostById);
 router.put("/:id", auth, upload.single("image"), updatePost);
 router.delete("/:id", auth, deletePost);

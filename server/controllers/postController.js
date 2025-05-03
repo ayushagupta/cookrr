@@ -94,3 +94,27 @@ exports.deletePost = async (req, res) => {
     res.status(500).json({ message: "Delete failed", error: error.message });
   }
 };
+
+exports.searchPosts = async (req, res) => {
+  const { query } = req.query;
+
+  if (!query) {
+    return res.status(400).json({ message: "Search query is required" });
+  }
+
+  try {
+    const regex = new RegExp(query, "i");
+
+    const posts = await Post.find({
+      $or: [
+        { title: { $regex: regex } },
+        { content: { $regex: regex } },
+        { tags: { $regex: regex } },
+      ],
+    }).populate("author", "fullName email");
+
+    res.status(200).json(posts);
+  } catch (error) {
+    res.status(500).json({ message: "Search failed", error: error.message });
+  }
+};
