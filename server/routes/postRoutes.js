@@ -9,7 +9,8 @@ const {
   getPostById,
   updatePost,
   deletePost,
-  searchPosts
+  searchPosts,
+  getTagsWithCount
 } = require("../controllers/postController");
 
 router.post("/", auth, upload.single("image"), createPost);
@@ -18,5 +19,6 @@ router.get("/search", searchPosts);
 router.get("/:id", getPostById);
 router.put("/:id", auth, upload.single("image"), updatePost);
 router.delete("/:id", auth, deletePost);
+router.get("/tags/count", getTagsWithCount);
 
 module.exports = router;

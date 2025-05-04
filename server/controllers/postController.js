@@ -118,3 +118,18 @@ exports.searchPosts = async (req, res) => {
     res.status(500).json({ message: "Search failed", error: error.message });
   }
 };
+
+exports.getTagsWithCount = async (req, res) => {
+  try {
+    const result = await Post.aggregate([
+      { $unwind: "$tags" },
+      { $group: { _id: "$tags", count: { $sum: 1 } } },
+      { $project: { tag: "$_id", count: 1, _id: 0 } },
+      { $sort: { count: -1 } }
+    ]);
+
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(500).json({ message: "Failed to count tags", error: err.message });
+  }
+};
