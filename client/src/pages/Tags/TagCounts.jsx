@@ -4,7 +4,7 @@ import Navbar from "../../components/Navbar/Navbar";
 import { Link } from "react-router-dom";
 import Sidebar from "../../components/Sidebar/Sidebar";
 
-const Tags = () => {
+const TagCounts = () => {
   const [tags, setTags] = useState([]);
 
   const getTagCounts = async () => {
@@ -47,4 +47,4 @@ const Tags = () => {
   );
 };
 
-export default Tags;
+export default TagCounts;
