@@ -38,12 +38,14 @@ const PostCard = ({ title, author, image, tags }) => {
 
       <div className="mt-2">
         {tags.map((tag, idx) => (
-          <span
-            key={idx}
-            className="text-xs bg-orange-100 text-orange-700 rounded px-2 py-1 mr-2"
-          >
-            #{tag}
-          </span>
+          <Link to={`/tags/${encodeURIComponent(tag)}`} key={idx}>
+            <span
+              key={idx}
+              className="text-xs bg-orange-100 text-orange-700 rounded px-2 py-1 mr-2"
+            >
+              #{tag}
+            </span>
+          </Link>
         ))}
       </div>
 
