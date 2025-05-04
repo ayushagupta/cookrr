@@ -33,7 +33,7 @@ exports.getPostById = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id).populate(
       "author",
-      "fullName"
+      "fullName email"
     );
     if (!post) {
       return res.status(404).json({ message: "Post not found" });
@@ -131,5 +131,15 @@ exports.getTagsWithCount = async (req, res) => {
     res.status(200).json(result);
   } catch (err) {
     res.status(500).json({ message: "Failed to count tags", error: err.message });
+  }
+};
+
+exports.getPostsByTag = async (req, res) => {
+  const tag = req.params.tag;
+  try {
+    const posts = await Post.find({ tags: tag }).populate("author", "fullName email");
+    res.status(200).json(posts);
+  } catch (error) {
+    res.status(500).json({message: "Failed to get posts by tag", error: error.message});
   }
 };
