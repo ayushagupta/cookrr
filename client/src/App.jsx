@@ -5,6 +5,7 @@ import Profile from "./pages/Profile/Profile";
 import SearchResults from "./pages/Search/SearchResults";
 import TagCounts from "./pages/Tags/TagCounts";
 import TagResults from "./pages/Tags/TagResults";
+import PostDetails from "./pages/Post/PostDetails";
 import { AuthProvider } from "./context/AuthContext";
 import RedirectToOwnProfile from "./pages/Profile/RedirectToOwnProfile";
 
@@ -19,6 +20,7 @@ const App = () => {
           <Route path="/search" element={<SearchResults />} />
           <Route path="/tags" element={<TagCounts />} />
           <Route path="/tags/:tag" element={<TagResults />} />
+          <Route path="/post/:postId" element={<PostDetails />} />
         </Routes>
       </Router>
     </AuthProvider>

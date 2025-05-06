@@ -86,6 +86,7 @@ const Profile = () => {
                 {userPosts.map((post) => (
                   <ProfilePostCard
                     key={post._id}
+                    id={post._id}
                     title={post.title}
                     image={post.image}
                     onEdit={() => handleEdit(post)}

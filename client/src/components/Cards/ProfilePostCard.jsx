@@ -1,10 +1,16 @@
 import React from "react";
 import { BASE_URL } from "../../utils/constants";
 import { MdCreate, MdDelete } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
-const ProfilePostCard = ({ title, image, onEdit, onDelete, isOwner }) => {
+const ProfilePostCard = ({ id, title, image, onEdit, onDelete, isOwner }) => {
+  const navigate = useNavigate();
+
   return (
-    <div className="rounded overflow-hidden shadow-sm bg-white hover:shadow transition-shadow cursor-pointer">
+    <div
+      onClick={() => navigate(`/post/${id}`)}
+      className="cursor-pointer rounded overflow-hidden shadow-sm bg-white hover:shadow transition-shadow"
+    >
       <img
         src={`${BASE_URL}${image}`}
         alt={title}
@@ -16,11 +22,17 @@ const ProfilePostCard = ({ title, image, onEdit, onDelete, isOwner }) => {
           <div className="flex items-center gap-2">
             <MdCreate
               className="text-xl text-slate-300 cursor-pointer hover:text-green-600"
-              onClick={onEdit}
+              onClick={(e) => {
+                e.stopPropagation();
+                onEdit();
+              }}
             />
             <MdDelete
               className="text-xl text-slate-300 cursor-pointer hover:text-red-500"
-              onClick={onDelete}
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete();
+              }}
             />
           </div>
         )}
