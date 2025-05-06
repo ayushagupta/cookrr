@@ -94,7 +94,7 @@ const AddEditPost = ({ postData, type, onClose, getAllPosts, getUserData }) => {
           placeholder="Write your recipe or story..."
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          rows={5}
+          rows={15}
           required
           className="w-full border px-4 py-2 rounded outline-none resize-none"
         />
